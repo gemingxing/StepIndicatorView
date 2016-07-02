@@ -1,0 +1,77 @@
+<resources>
+    <declare-styleable name="stepIndicatorView">
+
+        <!--==============================文本设置================================================-->
+        <!--设置文本大小-->
+        <attr name="stepIndicatorViewTextSize" format="integer|reference"/>
+
+        <!--设置流程完成文本字体大小(默认: 14sp)-->
+        <attr name="stepIndicatorViewCompletedTextSize" format="integer|reference"/>
+
+        <!--设置流程未完成文本字体大小(默认: 14sp)-->
+        <attr name="stepIndicatorViewUnCompleteTextSize" format="integer|reference"/>
+
+        <!--设置流程文本颜色(默认: 白色)-->
+        <attr name="stepIndicatorViewTextColor" format="color|reference"/>
+
+        <!--设置流程完成文本颜色(默认: 白色)-->
+        <attr name="stepIndicatorViewCompletedTextColor" format="color|reference"/>
+
+        <!--设置流程未完成文本颜色(默认: 白色)-->
+        <attr name="stepIndicatorViewUnCompleteTextColor" format="color|reference"/>
+
+        <!--设置文本上边距(默认: 5dp)-->
+        <attr name="stepIndicatorViewTextMaiginTop" format="color|reference"/>
+
+
+        <!--==============================线设置==================================================-->
+        <!--设置流程线的颜色(默认白色)-->
+        <attr name="stepIndicatorViewLineColor" format="color|reference"/>
+
+        <!--设置流程完成线的颜色(默认: #F8F8F8)-->
+        <attr name="stepIndicatorViewCompletedLineColor" format="color|reference"/>
+
+        <!--设置流程未完成线的颜色-->
+        <attr name="stepIndicatorViewUnCompleteLineColor" format="color|reference"/>
+
+        <!--设置流程线高度(默认: 2dp)-->
+        <attr name="stepIndicatorViewLineHeight" format="integer|reference"/>
+
+        <!--设置流程完成线高度(默认: 2dp)-->
+        <attr name="stepIndicatorViewCompletedLineHeight" format="integer|reference"/>
+
+        <!--设置未完成线的高度(默认: 1dp)-->
+        <attr name="stepIndicatorViewUnCompleteLineHeight" format="integer|reference"/>
+
+        <!--设置线的长度-->
+        <attr name="stepIndicatorViewLineLength" format="integer|reference"/>
+
+
+        <!--====================================ICON设置=========================================-->
+        <!--设置已经完成ICON-->
+        <attr name="stepIndicatorViewCompletedIcon" format="reference"/>
+
+        <!--设置未完成ICON-->
+        <attr name="stepIndicatorViewUnCompleteIcon" format="reference"/>
+
+        <!--设置默认ICON-->
+        <attr name="stepIndicatorViewDefaultIcon" format="reference"/>
+
+
+        <!--==================================初始化设置=========================================-->
+        <!--设置流程文本-->
+        <attr name="stepIndicatorViewTextList" format="reference"/>
+
+        <!--设置正在进行的流程position-->
+        <attr name="stepIndicatorViewCompletedPosition" format="integer"/>
+
+        <!--设置背景颜色-->
+        <attr name="stepIndicatorViewBackgroundColor" format="color|reference"/>
+
+        <!--设置方向-->
+        <attr name="stepIndicatorViewOrientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vetical" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>
