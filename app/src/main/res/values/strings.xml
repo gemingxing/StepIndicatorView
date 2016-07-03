@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">StepIndicatorView</string>
 
+    <string name="app_name">StepIndicatorView</string>
 
     <string-array name="arrays">
         <item >接单</item>
         <item >打包</item>
-        <item >出货</item>
+        <!--<item >出货</item>-->
         <!--<item >送单</item>-->
         <!--<item >完成</item>-->
-        <item >支付</item>
+        <!--<item >支付</item>-->
     </string-array>
 
 </resources>

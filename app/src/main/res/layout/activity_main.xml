@@ -11,14 +11,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gmx.stepindicatorview.MainActivity">
 
-    <com.gmx.demo.StepIndicatorView
+
+    <com.gmx.stepview.StepIndicatorView
         android:id="@+id/step_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dip"
-        app:stepIndicatorViewBackgroundColor="@color/white"
         app:stepIndicatorViewCompletedPosition="2"
-        app:stepIndicatorViewTextList="@array/arrays"/>
+        app:stepIndicatorViewTextList="@array/arrays"
+        app:stepIndicatorViewOrientation="horizontal"/>
 
 
 </RelativeLayout>

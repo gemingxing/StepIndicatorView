@@ -71,7 +71,7 @@
         <!--设置方向-->
         <attr name="stepIndicatorViewOrientation" format="enum">
             <enum name="horizontal" value="0" />
-            <enum name="vetical" value="1" />
+            <enum name="vertical" value="1" />
         </attr>
     </declare-styleable>
 </resources>
