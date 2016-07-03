@@ -13,13 +13,43 @@
 
 
     <com.gmx.stepview.StepIndicatorView
-        android:id="@+id/step_view"
-        android:layout_width="match_parent"
+        android:id="@+id/step_view0"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dip"
         app:stepIndicatorViewCompletedPosition="2"
-        app:stepIndicatorViewTextList="@array/arrays"
-        app:stepIndicatorViewOrientation="horizontal"/>
+        app:stepIndicatorViewOrientation="horizontal"
+        app:stepIndicatorViewBackgroundColor="@color/colorPrimary"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="setStepIndicatorViewTextList()"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="137dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="setStepIndicatorViewCompletedPosition()"
+        android:id="@+id/button2"
+        android:layout_alignBottom="@+id/button"
+        android:layout_toRightOf="@+id/button"
+        android:layout_toEndOf="@+id/button"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_above="@+id/button"
+        android:layout_alignRight="@+id/button"
+        android:layout_alignEnd="@+id/button"
+        android:layout_marginRight="57dp"
+        android:layout_marginEnd="57dp"
+        android:text="2"/>
+    <!--app:stepIndicatorViewTextList="@array/arrays"-->
 
 </RelativeLayout>

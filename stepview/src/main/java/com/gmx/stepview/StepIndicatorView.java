@@ -18,7 +18,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,9 +32,6 @@ import java.util.List;
  */
 public class StepIndicatorView extends View {
     private static final String TAG = "StepIndicatorView";
-
-    public static final int HORIZONTAL = 0;
-    public static final int VERTICAL = 1;
 
     private TextPaint mCompletedTextPaint;   // 定义文本 paint (流程已完成)
     private TextPaint mUnCompleteTextPaint;  // 定义文本 paint (流程未完成)
@@ -80,7 +76,7 @@ public class StepIndicatorView extends View {
     private int mBackgroundColor = ContextCompat.getColor(getContext(), R.color.defaultBackground);
     private boolean mWidthWrapContent = false;
     private boolean mHeightWrapContent = false;
-    private int mOrientation = HORIZONTAL; // 默认水平方向
+    private int mOrientation = Orientation.HORIZONTAL; // 默认水平方向
 
     public StepIndicatorView(Context context) {
         this(context, null);
@@ -145,7 +141,7 @@ public class StepIndicatorView extends View {
         }
 
         if (a.hasValue(R.styleable.stepIndicatorView_stepIndicatorViewOrientation)) {
-            mOrientation = a.getInt(R.styleable.stepIndicatorView_stepIndicatorViewOrientation, HORIZONTAL);
+            mOrientation = a.getInt(R.styleable.stepIndicatorView_stepIndicatorViewOrientation, Orientation.HORIZONTAL);
         }
 
     }
@@ -320,7 +316,7 @@ public class StepIndicatorView extends View {
 
 
         // 水平方向
-        if (HORIZONTAL == mOrientation) {
+        if (Orientation.HORIZONTAL == mOrientation) {
             if (MeasureSpec.AT_MOST == widthMode) {
                 mWidthWrapContent = true;
                 width = getUseSpaceWidth() + getPaddingLeft() + getPaddingRight() + getTextPreAndEndLength();
@@ -328,14 +324,23 @@ public class StepIndicatorView extends View {
 
             if (MeasureSpec.AT_MOST == heightMode) {
                 mHeightWrapContent = true;
-                height = getPaddingTop() + mLinePadding + mTextMarginTop + (Math.abs(mCompletedTextPaint.getFontMetricsInt().ascent) + Math.abs(mCompletedTextPaint.getFontMetricsInt().descent)) + getPaddingBottom();
+                int textHeight = 0;
+                if (mTextList != null && mTextList.size() > 0) {
+                    height = getPaddingTop() + mLinePadding + mTextMarginTop + (Math.abs(mCompletedTextPaint.getFontMetricsInt().ascent) + Math.abs(mCompletedTextPaint.getFontMetricsInt().descent)) + getPaddingBottom();
+                } else {
+                    height = getPaddingTop() + mLinePadding + getPaddingBottom();
+                }
             }
         }
         // 垂直方向
         else {
             if (MeasureSpec.AT_MOST == widthMode) {
                 mWidthWrapContent = true;
-                width = getPaddingLeft() + mLinePadding + mTextMarginTop + getVerticalMaxTextWidth() + getPaddingRight();
+                if (mTextList != null && mTextList.size() > 0) {
+                    width = getPaddingLeft() + mLinePadding + mTextMarginTop + getVerticalMaxTextWidth() + getPaddingRight();
+                } else {
+                    width = getPaddingLeft() + mLinePadding + getPaddingRight();
+                }
             }
 
             if (MeasureSpec.AT_MOST == heightMode) {
@@ -354,22 +359,24 @@ public class StepIndicatorView extends View {
      */
     private int getVerticalMaxTextWidth() {
 
-        int maxtPosition = 0;
+        int maxPosition = 0;
+        int textWidth = 0;
 
-        for (int i = 0; i < mStepNum - 1; i++) {
-            if (mTextList.get(i).length() > mTextList.get(i + 1).length()) {
-                maxtPosition = i;
-            } else {
-                maxtPosition = i + 1;
+        if (mTextList != null && mTextList.size() > 0) {
+            for (int i = 0; i < mStepNum; i++) {
+                if (mTextList.get(i).length() > mTextList.get(maxPosition).length()) {
+                    maxPosition = i;
+                }
             }
-        }
 
-        String txt = mTextList.get(maxtPosition);
-        int textWidth;
-        if (mCompletedPostion >= maxtPosition) {
-            textWidth = (int) mCompletedTextPaint.measureText(txt);
-        } else {
-            textWidth = (int) mUnCompleteTextPaint.measureText(txt);
+            Log.e(TAG, "getVerticalMaxTextPosition: " + maxPosition);
+
+            String txt = mTextList.get(maxPosition);
+            if (mCompletedPostion >= maxPosition) {
+                textWidth = (int) mCompletedTextPaint.measureText(txt);
+            } else {
+                textWidth = (int) mUnCompleteTextPaint.measureText(txt);
+            }
         }
 
         return textWidth;
@@ -383,92 +390,95 @@ public class StepIndicatorView extends View {
     private int getTextPreAndEndLength() {
         int width = 0;
 
-        if (HORIZONTAL == mOrientation) {
-            // 只有一个流程
-            if (mStepNum == 1) {
-                if (1 <= mCompletedPostion) {
-                    int textWidth = (int) mCompletedTextPaint.measureText(mTextList.get(0));
-                    if (textWidth > mLinePadding) {
-                        width += textWidth - mLinePadding;
-                    }
-                } else {
-                    int textWidth = (int) mUnCompleteTextPaint.measureText(mTextList.get(0));
-                    if (textWidth > mLinePadding) {
-                        width += textWidth - mLinePadding;
-                    }
-                }
-            }
+        if (mTextList != null && mTextList.size() > 0) {
 
-            // 两个流程以上
-            if (mStepNum > 1) {
-
-                if (1 <= mCompletedPostion) {
-                    int textWidth = (int) mCompletedTextPaint.measureText(mTextList.get(0));
-                    if (textWidth > mLinePadding) {
-                        width += textWidth / 2 - mLinePadding / 2;
-                    }
-                } else {
-                    int textWidth = (int) mUnCompleteTextPaint.measureText(mTextList.get(0));
-                    if (textWidth > mLinePadding) {
-                        width += textWidth / 2 - mLinePadding / 2;
+            if (Orientation.HORIZONTAL == mOrientation) {
+                // 只有一个流程
+                if (mStepNum == 1) {
+                    if (1 <= mCompletedPostion) {
+                        int textWidth = (int) mCompletedTextPaint.measureText(mTextList.get(0));
+                        if (textWidth > mLinePadding) {
+                            width += textWidth - mLinePadding;
+                        }
+                    } else {
+                        int textWidth = (int) mUnCompleteTextPaint.measureText(mTextList.get(0));
+                        if (textWidth > mLinePadding) {
+                            width += textWidth - mLinePadding;
+                        }
                     }
                 }
 
+                // 两个流程以上
+                if (mStepNum > 1) {
 
-                if (mStepNum - 1 <= mCompletedPostion) {
-                    int textWidth = (int) mCompletedTextPaint.measureText(mTextList.get(mStepNum - 1));
-                    if (textWidth > mLinePadding) {
-                        width += textWidth / 2 - mLinePadding / 2;
+                    if (1 <= mCompletedPostion) {
+                        int textWidth = (int) mCompletedTextPaint.measureText(mTextList.get(0));
+                        if (textWidth > mLinePadding) {
+                            width += textWidth / 2 - mLinePadding / 2;
+                        }
+                    } else {
+                        int textWidth = (int) mUnCompleteTextPaint.measureText(mTextList.get(0));
+                        if (textWidth > mLinePadding) {
+                            width += textWidth / 2 - mLinePadding / 2;
+                        }
                     }
-                } else {
-                    int textWidth = (int) mUnCompleteTextPaint.measureText(mTextList.get(mStepNum - 1));
-                    if (textWidth > mLinePadding) {
-                        width += textWidth / 2 - mLinePadding / 2;
+
+
+                    if (mStepNum - 1 <= mCompletedPostion) {
+                        int textWidth = (int) mCompletedTextPaint.measureText(mTextList.get(mStepNum - 1));
+                        if (textWidth > mLinePadding) {
+                            width += textWidth / 2 - mLinePadding / 2;
+                        }
+                    } else {
+                        int textWidth = (int) mUnCompleteTextPaint.measureText(mTextList.get(mStepNum - 1));
+                        if (textWidth > mLinePadding) {
+                            width += textWidth / 2 - mLinePadding / 2;
+                        }
                     }
                 }
-            }
-        } else {
-            // 只有一个流程
-            if (mStepNum == 1) {
-                if (1 <= mCompletedPostion) {
-                    int textHeight = getTextHeight(mTextList.get(0), mCompletedTextPaint);
-                    if (textHeight > mLinePadding) {
-                        width += textHeight - mLinePadding;
+            } else {
+                // 只有一个流程
+                if (mStepNum == 1) {
+                    if (1 <= mCompletedPostion) {
+                        int textHeight = getTextHeight(mTextList.get(0), mCompletedTextPaint);
+                        if (textHeight > mLinePadding) {
+                            width += textHeight - mLinePadding;
+                        }
+                    } else {
+                        int textHeight = getTextHeight(mTextList.get(0), mUnCompleteTextPaint);
+                        if (textHeight > mLinePadding) {
+                            width += textHeight - mLinePadding;
+                        }
                     }
-                } else {
-                    int textHeight = getTextHeight(mTextList.get(0), mUnCompleteTextPaint);
-                    if (textHeight > mLinePadding) {
-                        width += textHeight - mLinePadding;
-                    }
+
                 }
 
-            }
+                // 两个流程以上
+                if (mStepNum > 1) {
 
-            // 两个流程以上
-            if (mStepNum > 1) {
-
-                if (1 <= mCompletedPostion) {
-                    int textHeight = getTextHeight(mTextList.get(0), mCompletedTextPaint);
-                    if (textHeight > mLinePadding) {
-                        width += textHeight / 2 - mLinePadding / 2;
+                    if (1 <= mCompletedPostion) {
+                        int textHeight = getTextHeight(mTextList.get(0), mCompletedTextPaint);
+                        if (textHeight > mLinePadding) {
+                            width += textHeight / 2 - mLinePadding / 2;
+                        }
+                    } else {
+                        int textHeight = getTextHeight(mTextList.get(0), mUnCompleteTextPaint);
+                        if (textHeight > mLinePadding) {
+                            width += textHeight / 2 - mLinePadding / 2;
+                        }
                     }
-                } else {
-                    int textHeight = getTextHeight(mTextList.get(0), mUnCompleteTextPaint);
-                    if (textHeight > mLinePadding) {
-                        width += textHeight / 2 - mLinePadding / 2;
-                    }
-                }
 
 
-                if (mStepNum - 1 <= mCompletedPostion) {
-                    int textHeight = getTextHeight(mTextList.get(mStepNum - 1), mCompletedTextPaint);
-                    if (textHeight > mLinePadding) {
-                        width += textHeight / 2 - mLinePadding / 2;
-                    }
-                } else {
-                    int textHeight = getTextHeight(mTextList.get(mStepNum - 1), mUnCompleteTextPaint);
-                    if (textHeight > mLinePadding) {
-                        width += textHeight / 2 - mLinePadding / 2;
+                    if (mStepNum - 1 <= mCompletedPostion) {
+                        int textHeight = getTextHeight(mTextList.get(mStepNum - 1), mCompletedTextPaint);
+                        if (textHeight > mLinePadding) {
+                            width += textHeight / 2 - mLinePadding / 2;
+                        }
+                    } else {
+                        int textHeight = getTextHeight(mTextList.get(mStepNum - 1), mUnCompleteTextPaint);
+                        if (textHeight > mLinePadding) {
+                            width += textHeight / 2 - mLinePadding / 2;
+                        }
                     }
                 }
             }
@@ -479,24 +489,10 @@ public class StepIndicatorView extends View {
 
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        checkInitData();
-        obtainLeftStartPoint();
-    }
-
-
-    private void checkInitData() {
-        if (mTextList == null) {
-            Toast.makeText(getContext(), "请调用 setStepIndicatorViewTextList() 进行初始化!!", Toast.LENGTH_LONG).show();
-            throw new RuntimeException("请调用 setStepIndicatorViewTextList() 进行初始化!!");
-        }
-    }
-
-
-    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        // Obtain left start point..
+        obtainLeftStartPoint();
 
         // draw line
         drawLine(canvas);
@@ -517,7 +513,7 @@ public class StepIndicatorView extends View {
     private void drawLine(Canvas canvas) {
 
         // 水平方向
-        if (HORIZONTAL == mOrientation) {
+        if (Orientation.HORIZONTAL == mOrientation) {
             int preX = 0;
             int lastX = mLeftCenterPoint.x + getOneTextOneHalfWidth();
 
@@ -579,7 +575,7 @@ public class StepIndicatorView extends View {
     private void drawIcon(Canvas canvas) {
         Rect rect = null;
 
-        if (HORIZONTAL == mOrientation) {
+        if (Orientation.HORIZONTAL == mOrientation) {
             int top_y = mLeftCenterPoint.y;
             int bottom_y = mLeftCenterPoint.y + mLinePadding;
 
@@ -662,73 +658,77 @@ public class StepIndicatorView extends View {
     private void drawText(Canvas canvas) {
         int textY = 0;
         int textX = 0;
+        if (mTextList != null && mTextList.size() > 0) {
 
-        if (HORIZONTAL == mOrientation) {
-            int centerPositionX = mLeftCenterPoint.x + mLinePadding / 2 + getOneTextOneHalfWidth();
+            if (Orientation.HORIZONTAL == mOrientation) {
+                int centerPositionX = mLeftCenterPoint.x + mLinePadding / 2 + getOneTextOneHalfWidth();
 
-            for (int i = 0; i < mStepNum; i++) {
+                for (int i = 0; i < mStepNum; i++) {
 
-                if (i != 0) {
-                    centerPositionX += mLinePadding + mLineLength;
+                    if (i != 0) {
+                        centerPositionX += mLinePadding + mLineLength;
+                    }
+
+                    String text = mTextList.get(i);
+                    int textWidth = 0;
+                    int textHeight = 0;
+
+                    // 已经完成的
+                    if (i <= mCompletedPostion) {
+                        textWidth = getTextWidth(text, mCompletedTextPaint);
+                        textHeight = getTextHeight(text, mCompletedTextPaint);
+                        textY = textHeight + mTextMarginTop + mLinePadding + mLeftCenterPoint.y;
+                        textX = centerPositionX - textWidth / 2;
+                        canvas.drawText(text, textX, textY, mCompletedTextPaint);
+                    }
+                    // 未完成的(默认)
+                    else {
+                        textWidth = getTextWidth(text, mUnCompleteTextPaint);
+                        textHeight = getTextHeight(text, mUnCompleteTextPaint);
+                        textY = textHeight + mTextMarginTop + mLinePadding + mLeftCenterPoint.y;
+                        textX = centerPositionX - textWidth / 2;
+                        canvas.drawText(text, textX, textY, mUnCompleteTextPaint);
+                    }
+
                 }
 
-                String text = mTextList.get(i);
-                int textWidth = 0;
-                int textHeight = 0;
+            } else {
 
-                // 已经完成的
-                if (i <= mCompletedPostion) {
-                    textWidth = getTextWidth(text, mCompletedTextPaint);
-                    textHeight = getTextHeight(text, mCompletedTextPaint);
-                    textY = textHeight + mTextMarginTop + mLinePadding + mLeftCenterPoint.y;
-                    textX = centerPositionX - textWidth / 2;
-                    canvas.drawText(text, textX, textY, mCompletedTextPaint);
-                }
-                // 未完成的(默认)
-                else {
-                    textWidth = getTextWidth(text, mUnCompleteTextPaint);
-                    textHeight = getTextHeight(text, mUnCompleteTextPaint);
-                    textY = textHeight + mTextMarginTop + mLinePadding + mLeftCenterPoint.y;
-                    textX = centerPositionX - textWidth / 2;
-                    canvas.drawText(text, textX, textY, mUnCompleteTextPaint);
-                }
+                int centerPositionY = mLeftCenterPoint.y + mLinePadding / 2 + getOneTextOneHalfWidth();
 
-            }
+                for (int i = 0; i < mStepNum; i++) {
 
-        } else {
+                    if (i != 0) {
+                        centerPositionY += mLinePadding + mLineLength;
+                    }
 
-            int centerPositionY = mLeftCenterPoint.y + mLinePadding / 2 + getOneTextOneHalfWidth();
+                    String text = mTextList.get(i);
+                    int textWidth = 0;
+                    int textHeight = 0;
 
-            for (int i = 0; i < mStepNum; i++) {
+                    // 已经完成的
+                    if (i <= mCompletedPostion) {
+                        textWidth = getTextWidth(text, mCompletedTextPaint);
+                        textHeight = getTextHeight(text, mCompletedTextPaint);
+                        textY = centerPositionY + textHeight / 2;
+                        textX = mLeftCenterPoint.x + mLinePadding + mTextMarginTop;
+                        canvas.drawText(text, textX, textY, mCompletedTextPaint);
+                    }
+                    // 未完成的(默认)
+                    else {
+                        textWidth = getTextWidth(text, mUnCompleteTextPaint);
+                        textHeight = getTextHeight(text, mUnCompleteTextPaint);
+                        textY = centerPositionY + textHeight / 2;
+                        textX = mLeftCenterPoint.x + mLinePadding + mTextMarginTop;
+                        canvas.drawText(text, textX, textY, mUnCompleteTextPaint);
+                    }
 
-                if (i != 0) {
-                    centerPositionY += mLinePadding + mLineLength;
-                }
-
-                String text = mTextList.get(i);
-                int textWidth = 0;
-                int textHeight = 0;
-
-                // 已经完成的
-                if (i <= mCompletedPostion) {
-                    textWidth = getTextWidth(text, mCompletedTextPaint);
-                    textHeight = getTextHeight(text, mCompletedTextPaint);
-                    textY = centerPositionY + textHeight / 2;
-                    textX = mLeftCenterPoint.x + mLinePadding + mTextMarginTop;
-                    canvas.drawText(text, textX, textY, mCompletedTextPaint);
-                }
-                // 未完成的(默认)
-                else {
-                    textWidth = getTextWidth(text, mUnCompleteTextPaint);
-                    textHeight = getTextHeight(text, mUnCompleteTextPaint);
-                    textY = centerPositionY + textHeight / 2;
-                    textX = mLeftCenterPoint.x + mLinePadding + mTextMarginTop;
-                    canvas.drawText(text, textX, textY, mUnCompleteTextPaint);
                 }
 
             }
 
         }
+
     }
 
 
@@ -737,34 +737,38 @@ public class StepIndicatorView extends View {
      */
     private int getOneTextOneHalfWidth() {
         int width = 0;
-        String text = mTextList.get(0);
 
-        if (HORIZONTAL == mOrientation) {
-            if (mCompletedPostion >= 1) {
-                int textWidth = (int) mCompletedTextPaint.measureText(text);
-                if (textWidth > mLinePadding) {
-                    width = textWidth / 2 - mLinePadding / 2;
+        if (mTextList != null && mTextList.size() > 0) {
+            String text = mTextList.get(0);
+
+            if (Orientation.HORIZONTAL == mOrientation) {
+                if (mCompletedPostion >= 1) {
+                    int textWidth = (int) mCompletedTextPaint.measureText(text);
+                    if (textWidth > mLinePadding) {
+                        width = textWidth / 2 - mLinePadding / 2;
+                    }
+                } else {
+                    int textWidth = (int) mUnCompleteTextPaint.measureText(text);
+                    if (textWidth > mLinePadding) {
+                        width = textWidth / 2 - mLinePadding / 2;
+                    }
                 }
             } else {
-                int textWidth = (int) mUnCompleteTextPaint.measureText(text);
-                if (textWidth > mLinePadding) {
-                    width = textWidth / 2 - mLinePadding / 2;
+                if (mCompletedPostion >= 1) {
+                    int textWidth = getTextHeight(text, mCompletedTextPaint);
+                    if (textWidth > mLinePadding) {
+                        width = textWidth / 2 - mLinePadding / 2;
+                    }
+                } else {
+                    int textWidth = getTextHeight(text, mUnCompleteTextPaint);
+                    if (textWidth > mLinePadding) {
+                        width = textWidth / 2 - mLinePadding / 2;
+                    }
                 }
             }
-        } else {
-            if (mCompletedPostion >= 1) {
-                int textWidth = getTextHeight(text, mCompletedTextPaint);
-                if (textWidth > mLinePadding) {
-                    width = textWidth / 2 - mLinePadding / 2;
-                }
-            } else {
-                int textWidth = getTextHeight(text, mUnCompleteTextPaint);
-                if (textWidth > mLinePadding) {
-                    width = textWidth / 2 - mLinePadding / 2;
-                }
-            }
+            Log.e(TAG, "第一个文本 - 第一个icon =  " + width + "px");
         }
-        Log.e(TAG, "第一个文本 - 第一个icon =  " + width + "px");
+
         return width;
     }
 
@@ -789,7 +793,7 @@ public class StepIndicatorView extends View {
         int x = 0;
         int y = 0;
         // 水平方向
-        if (HORIZONTAL == mOrientation) {
+        if (Orientation.HORIZONTAL == mOrientation) {
             if (mWidthWrapContent) {
                 x = getPaddingLeft();
             } else {
@@ -1040,6 +1044,16 @@ public class StepIndicatorView extends View {
     }
 
 
+    /**
+     * 设置背景颜色
+     *
+     * @param color
+     */
+    public StepIndicatorView setStepIndicatorViewBackgroundColor(@ColorInt int color) {
+        mBackgroundColor = color;
+        return this;
+    }
+
 //    =======================================需要初始化==============================================
 
     /**
@@ -1049,7 +1063,16 @@ public class StepIndicatorView extends View {
      */
     public StepIndicatorView initStepIndicatorViewTextList(@NonNull List<String> textList) {
         mTextList = textList;
-        mStepNum = mTextList.size();
+        return this;
+    }
+
+    /**
+     * 设置流程数量
+     *
+     * @param stepCount
+     */
+    public StepIndicatorView initStepIndicatorCount(int stepCount) {
+        mStepNum = stepCount;
         return this;
     }
 
@@ -1064,6 +1087,17 @@ public class StepIndicatorView extends View {
         return this;
     }
 
+    /**
+     * 设置 水平, 垂直方向
+     *
+     * @param orientation
+     * @return
+     */
+    public StepIndicatorView initStepIndicatorViewOrientation(@Orientation.OrientationChecker int orientation) {
+        mOrientation = orientation;
+        return this;
+    }
+
 
 //    =======================================具体操作==============================================
 
@@ -1074,6 +1108,8 @@ public class StepIndicatorView extends View {
      */
     public void setStepIndicatorViewTextList(List<String> textList) {
         initStepIndicatorViewTextList(textList);
+        initStepIndicatorCount(textList.size());
+        requestLayout();
         invalidate();
     }
 
@@ -1089,13 +1125,5 @@ public class StepIndicatorView extends View {
         invalidate();
     }
 
-    /**
-     * 设置背景颜色
-     *
-     * @param color
-     */
-    public void setStepIndicatorViewBackgroundColor(@ColorInt int color) {
-        mBackgroundColor = color;
-    }
 
 }
