@@ -1,15 +1,85 @@
-# StepIndicatorView (流程指示器)
+StepIndicatorView (流程指示器)
+-----------------------------
+
+Description
+---------------------
+> The library is compatible until API 7 for convenience.
+
+SnapShot
+-------------------
+> 这里存在gif效果图
 
 
+Sample
+---------------------------
+> Please look at the app module
 
 
+StepUp
+------------------------------
+First, add jitpack in your build.gradle at the end of repositories:
 
+```
+repositories {
+    // ...
+    maven { url "https://jitpack.io" }
+}
+```
+Then, add the library dependency:
 
+```
+    compile 'com.github.gemingxing:stepindicatorview:1.0.0'
+```
+Now go do some awesome stuff!
 
+Xml Attributes
+--------------------
+|           Name         |        Description-    |      Default value     |
+|------------------------|------------------------|------------------------|
+|stepIndicatorViewOrientation|set orientation of view|horizontal|
+|stepIndicatorViewTextList|set step text list of view||
+|stepIndicatorViewCompletedPosition|set completed position of view||
+|stepIndicatorViewBackgroundColor|set background color of view|#00988c|
+|stepIndicatorViewCompletedIcon|set completed icon of the view||
+|stepIndicatorViewUnCompleteIcon|set unComplete icon of the view||
+|stepIndicatorViewDefaultIcon|set default icon of the view||
+|........|......|.....|
 
+Use HorizontalStepIndicatorView
+----------------------------
+> 这里会引用图片
 
+in xml
+``` xml
 
+```
 
+in code
+``` java
+
+```
+
+Use VerticalStepIndicatorView
+--------------------------
+in xml
+``` xml
+
+```
+in code
+``` java
+
+```
+
+Use StepIndicatorView(without text)
+----------------------------
+in xml
+``` xml
+
+```
+in code
+``` java
+
+```
 
 
 Licence
