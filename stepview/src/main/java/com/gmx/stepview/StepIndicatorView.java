@@ -146,6 +146,10 @@ public class StepIndicatorView extends View {
             mOrientation = a.getInt(R.styleable.stepIndicatorView_stepIndicatorViewOrientation, Orientation.HORIZONTAL);
         }
 
+        if(a.hasValue(R.styleable.stepIndicatorView_stepIndicatorViewCount)) {
+            mStepNum = a.getInt(R.styleable.stepIndicatorView_stepIndicatorViewCount, 0);
+        }
+
     }
 
     /**
@@ -154,19 +158,23 @@ public class StepIndicatorView extends View {
      * @param a
      */
     private void setIconConfig(TypedArray a) {
+        if (a.hasValue(R.styleable.stepIndicatorView_stepIndicatorViewIcon)) {
+            mCompletedIcon = a.getDrawable(R.styleable.stepIndicatorView_stepIndicatorViewIcon);
+            mCompletingIcon = a.getDrawable(R.styleable.stepIndicatorView_stepIndicatorViewIcon);
+            mUnCompleteIcon = a.getDrawable(R.styleable.stepIndicatorView_stepIndicatorViewIcon);
+        } else {
+            if (a.hasValue(R.styleable.stepIndicatorView_stepIndicatorViewCompletedIcon)) {
+                mCompletedIcon = a.getDrawable(R.styleable.stepIndicatorView_stepIndicatorViewCompletedIcon);
+            }
 
-        if (a.hasValue(R.styleable.stepIndicatorView_stepIndicatorViewCompletedIcon)) {
-            mCompletedIcon = a.getDrawable(R.styleable.stepIndicatorView_stepIndicatorViewCompletedIcon);
+            if (a.hasValue(R.styleable.stepIndicatorView_stepIndicatorViewUnCompleteIcon)) {
+                mCompletingIcon = a.getDrawable(R.styleable.stepIndicatorView_stepIndicatorViewUnCompleteIcon);
+            }
+
+            if (a.hasValue(R.styleable.stepIndicatorView_stepIndicatorViewDefaultIcon)) {
+                mUnCompleteIcon = a.getDrawable(R.styleable.stepIndicatorView_stepIndicatorViewDefaultIcon);
+            }
         }
-
-        if (a.hasValue(R.styleable.stepIndicatorView_stepIndicatorViewUnCompleteIcon)) {
-            mCompletingIcon = a.getDrawable(R.styleable.stepIndicatorView_stepIndicatorViewUnCompleteIcon);
-        }
-
-        if (a.hasValue(R.styleable.stepIndicatorView_stepIndicatorViewDefaultIcon)) {
-            mUnCompleteIcon = a.getDrawable(R.styleable.stepIndicatorView_stepIndicatorViewDefaultIcon);
-        }
-
     }
 
     /**
@@ -830,7 +838,7 @@ public class StepIndicatorView extends View {
                         width = textWidth / 2 - mLinePadding / 2;
                     }
                 }
-                if(!mWidthWrapContent) {
+                if (!mWidthWrapContent) {
                     width = 0;
                 }
             } else {
@@ -845,7 +853,7 @@ public class StepIndicatorView extends View {
                         width = textWidth / 2 - mLinePadding / 2;
                     }
                 }
-                if(!mHeightWrapContent) {
+                if (!mHeightWrapContent) {
                     width = 0;
                 }
             }

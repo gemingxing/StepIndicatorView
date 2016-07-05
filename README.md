@@ -4,7 +4,7 @@ StepIndicatorView (流程指示器)
 
 SnapShot
 -------------------
-> 这里存在gif效果图
+![](ART/stepindicatorview.gif)
 
 
 Sample

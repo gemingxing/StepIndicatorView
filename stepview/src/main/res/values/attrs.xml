@@ -70,10 +70,13 @@
         <!--设置背景颜色-->
         <attr name="stepIndicatorViewBackgroundColor" format="color|reference"/>
 
+        <!--设置数量-->
+        <attr name="stepIndicatorViewCount" format="integer|reference"/>
+
         <!--设置方向-->
         <attr name="stepIndicatorViewOrientation" format="enum">
-            <enum name="horizontal" value="0" />
-            <enum name="vertical" value="1" />
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
         </attr>
     </declare-styleable>
 </resources>

@@ -1,7 +1,6 @@
 package com.gmx.stepindicatorview;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.gmx.stepview.StepIndicatorView;
 
@@ -30,22 +29,6 @@ public class MainActivity extends BaseActivity {
         setUp2();
         setUp3();
 
-
-        float density = getResources().getDisplayMetrics().density;
-        float densityDPI = getResources().getDisplayMetrics().densityDpi;
-        int heightPixels = getResources().getDisplayMetrics().heightPixels;
-        int widthPixels = getResources().getDisplayMetrics().widthPixels;
-        float xdpi = getResources().getDisplayMetrics().xdpi;
-        float ydpi = getResources().getDisplayMetrics().ydpi;
-        float scaledDensity = getResources().getDisplayMetrics().scaledDensity;
-
-        Log.e("TAG", "density: " + density);
-        Log.e("TAG", "densityDPI: " + densityDPI);
-        Log.e("TAG", "heightPixels: " + heightPixels);
-        Log.e("TAG", "widthPixels: " + widthPixels);
-        Log.e("TAG", "xdpi: " + xdpi);
-        Log.e("TAG", "ydpi: " + ydpi);
-        Log.e("TAG", "scaledDensity: " + scaledDensity);
     }
 
     private void setUp3() {
