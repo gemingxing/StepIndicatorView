@@ -4,7 +4,7 @@ StepIndicatorView (流程指示器)
 
 SnapShot
 -------------------
-![](https://github.com/gemingxing/StepIndicatorView/blob/master/ART/stepindicatorview.gif)
+![](ART/stepindicatorview.gif)
 
 
 Sample

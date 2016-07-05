@@ -15,7 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -380,8 +379,6 @@ public class StepIndicatorView extends View {
                 }
             }
 
-            Log.e(TAG, "getVerticalMaxTextPosition: " + maxPosition);
-
             String txt = mTextList.get(maxPosition);
             if (mCompletedPostion >= maxPosition) {
                 textWidth = (int) mCompletedTextPaint.measureText(txt);
@@ -494,7 +491,7 @@ public class StepIndicatorView extends View {
                 }
             }
         }
-        Log.e(TAG, "getTextPreAndEndLength: " + width);
+
         return width;
     }
 
@@ -857,7 +854,6 @@ public class StepIndicatorView extends View {
                     width = 0;
                 }
             }
-            Log.e(TAG, "第一个文本 - 第一个icon =  " + width + "px");
         }
 
         return width;
@@ -904,7 +900,6 @@ public class StepIndicatorView extends View {
 
         mLeftCenterPoint = new Point(x, y);
 
-        Log.e(TAG, "left start point.x = " + x + ", point.y = " + y);
     }
 
 
