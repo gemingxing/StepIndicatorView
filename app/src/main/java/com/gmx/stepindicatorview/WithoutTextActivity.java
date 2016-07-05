@@ -22,7 +22,6 @@ public class WithoutTextActivity extends BaseActivity {
                 .initStepIndicatorViewCompletedPosition(2);
 
 
-
         mStepIndicatorView1.initStepIndicatorCount(5)
                 .initStepIndicatorViewCompletedPosition(2)
         .initStepIndicatorViewOrientation(Orientation.VERTICAL);

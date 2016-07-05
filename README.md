@@ -53,35 +53,113 @@ Use HorizontalStepIndicatorView
 
 in xml
 ``` xml
-
+<com.gmx.stepview.StepIndicatorView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dip"
+        android:paddingTop="30dip"
+        app:stepIndicatorViewCompletedPosition="2"
+        app:stepIndicatorViewTextList="@array/arrays"
+        app:stepIndicatorViewBackgroundColor="@color/colorPrimary"/>
 ```
 
 in code
 ``` java
+List<String> list = new ArrayList<>();
+        list.add("接单");
+        list.add("打包");
+        list.add("出发");
+        list.add("送单");
+        list.add("完成");
+        list.add("支付");
 
+        mStepIndicatorView0.initStepIndicatorViewTextList(list)
+                .initStepIndicatorCount(list.size())
+                .initStepIndicatorViewCompletedPosition(0);
 ```
 
 Use VerticalStepIndicatorView
 --------------------------
 in xml
 ``` xml
-
+<com.gmx.stepview.StepIndicatorView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dip"
+        android:paddingTop="30dip"
+        app:stepIndicatorViewCompletedPosition="2"
+        app:stepIndicatorViewTextList="@array/arrays"
+        app:stepIndicatorViewBackgroundColor="@color/colorPrimary"
+        app:stepIndicatorViewOrientation="vertical"/>
 ```
 in code
 ``` java
+List<String> list0 = new ArrayList<>();
+        list0.add("接已提交定案,等待系统确认");
+        list0.add("您的商品需要从外地调拨,我们会尽快处理，请耐心等待");
+        list0.add("您的订单已经进入亚洲第一仓储中心1号库准备出库");
+        list0.add("您的订单预计6月23日送达您的手中,618期间促销火爆,可能影响送货时间,请您谅解,我们会第一时间送到您的手中");
+        list0.add("您的订单已打印完毕");
+        list0.add("扫描员已经扫描");
+        list0.add("打包成功");
+        list0.add("配送员【GMX】已出发,联系电话【159-0061-9215】,感谢您的耐心等待，参加评价还能赢取好多礼物哦");
+        list0.add("感谢你在京东购物，欢迎你下次光临！");
+
+        mStepIndicatorView.initStepIndicatorCount(list0.size())
+                .initStepIndicatorViewTextList(list0)
+        .initStepIndicatorViewCompletedPosition(3)
+        .initStepIndicatorViewOrientation(Orientation.VERTICAL);
 
 ```
 
-Use StepIndicatorView(without text)
+Use StepIndicatorView(without text horizontal)
 ----------------------------
 in xml
 ``` xml
-
+<com.gmx.stepview.StepIndicatorView
+        android:id="@+id/stepView0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dip"
+        android:paddingTop="30dip"
+        app:stepIndicatorViewCount="5"
+        app:stepIndicatorViewCompletedPosition="3"
+        app:stepIndicatorViewBackgroundColor="@color/colorPrimary"/>
 ```
 in code
 ``` java
-
+mStepIndicatorView0 = (StepIndicatorView) findViewById(R.id.stepView0);
+mStepIndicatorView0.initStepIndicatorCount(5)
+                   .initStepIndicatorViewCompletedPosition(2);
 ```
+
+Use StepIndicatorView(without text vertical)
+----------------------------
+in xml
+``` xml
+<com.gmx.stepview.StepIndicatorView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dip"
+        android:paddingTop="30dip"
+        app:stepIndicatorViewCount="5"
+        app:stepIndicatorViewCompletedPosition="3"
+        app:stepIndicatorViewBackgroundColor="@color/colorPrimary"
+        app:stepIndicatorViewOrientation="vertical"/>
+```
+in code
+``` java
+mStepIndicatorView0 = (StepIndicatorView) findViewById(R.id.stepView0);
+mStepIndicatorView0.initStepIndicatorCount(5)
+                   .initStepIndicatorViewCompletedPosition(2)
+                   .initStepIndicatorViewOrientation(Orientation.VERTICAL);
+```
+
+To Be Perfect
+-----------------
+Add animation, replacing the state image and so on......
+
+
 
 
 End

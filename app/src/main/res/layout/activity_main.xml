@@ -19,6 +19,8 @@
         android:layout_height="wrap_content"
         android:paddingBottom="30dip"
         android:paddingTop="30dip"
+        app:stepIndicatorViewCompletedPosition="2"
+        app:stepIndicatorViewTextList="@array/arrays"
         app:stepIndicatorViewBackgroundColor="@color/colorPrimary"/>
 
     <com.gmx.stepview.StepIndicatorView
