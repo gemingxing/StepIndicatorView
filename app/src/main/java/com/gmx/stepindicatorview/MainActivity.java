@@ -1,72 +1,107 @@
 package com.gmx.stepindicatorview;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
+import android.util.Log;
 
-import com.gmx.stepview.Orientation;
 import com.gmx.stepview.StepIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    StepIndicatorView mStepIndicatorView;
+    StepIndicatorView mStepIndicatorView0;
+    private StepIndicatorView mStepIndicatorView3;
+    private StepIndicatorView mStepIndicatorView1;
+    private StepIndicatorView mStepIndicatorView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mStepIndicatorView0 = (StepIndicatorView) findViewById(R.id.stepView0);
+        mStepIndicatorView1 = (StepIndicatorView) findViewById(R.id.stepView1);
+        mStepIndicatorView2 = (StepIndicatorView) findViewById(R.id.stepView2);
+        mStepIndicatorView3 = (StepIndicatorView) findViewById(R.id.stepView3);
 
-        step0();
+        setUp0();
+        setUp1();
+        setUp2();
+        setUp3();
 
-        step1();
+
+        float density = getResources().getDisplayMetrics().density;
+        float densityDPI = getResources().getDisplayMetrics().densityDpi;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels;
+        int widthPixels = getResources().getDisplayMetrics().widthPixels;
+        float xdpi = getResources().getDisplayMetrics().xdpi;
+        float ydpi = getResources().getDisplayMetrics().ydpi;
+        float scaledDensity = getResources().getDisplayMetrics().scaledDensity;
+
+        Log.e("TAG", "density: " + density);
+        Log.e("TAG", "densityDPI: " + densityDPI);
+        Log.e("TAG", "heightPixels: " + heightPixels);
+        Log.e("TAG", "widthPixels: " + widthPixels);
+        Log.e("TAG", "xdpi: " + xdpi);
+        Log.e("TAG", "ydpi: " + ydpi);
+        Log.e("TAG", "scaledDensity: " + scaledDensity);
     }
 
+    private void setUp3() {
+        List<String> list = new ArrayList<>();
+        list.add("接单");
+        list.add("打包");
+        list.add("出发");
+        list.add("送单");
+        list.add("完成");
+        list.add("支付");
 
-    private void step1() {
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                List<String> list0 = new ArrayList<>();
-                list0.add("接已提交定案，等待系统确认");
-                list0.add("您的商品需要从外地调拨，我们会尽快处理，请耐心等待");
-                list0.add("您的订单已经进入亚洲第一仓储中心1号库准备出库");
-                list0.add("您的订单预计6月23日送达您的手中，618期间促销火爆，可能影响送货时间，请您谅解，我们会第一时间送到您的手中");
-                list0.add("您的订单已打印完毕");
-                list0.add("您的订单已拣货完成");
-                list0.add("扫描员已经扫描");
-                list0.add("打包成功");
-                list0.add("配送员【包牙齿】已出发，联系电话【130-0000-0000】，感谢您的耐心等待，参加评价还能赢取好多礼物哦");
-                list0.add("感谢你在京东购物，欢迎你下次光临！");
-
-                mStepIndicatorView.setStepIndicatorViewTextList(list0);
-            }
-        });
-
-
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = Integer.valueOf(((EditText) findViewById(R.id.editText)).getText().toString());
-                mStepIndicatorView.setStepIndicatorViewCompletedPosition(position);
-
-            }
-        });
+        mStepIndicatorView3.initStepIndicatorViewTextList(list)
+                .initStepIndicatorCount(list.size())
+                .initStepIndicatorViewCompletedPosition(3);
     }
 
-    private void step0() {
-        mStepIndicatorView = (StepIndicatorView) findViewById(R.id.step_view0);
+    private void setUp2() {
+        List<String> list = new ArrayList<>();
+        list.add("接单");
+        list.add("打包");
+        list.add("出发");
+        list.add("送单");
+        list.add("完成");
+        list.add("支付");
 
-        List<String> list0 = new ArrayList<>();
+        mStepIndicatorView2.initStepIndicatorViewTextList(list)
+                .initStepIndicatorCount(list.size())
+                .initStepIndicatorViewCompletedPosition(2);
+    }
 
-        mStepIndicatorView.initStepIndicatorCount(5)
-                .initStepIndicatorViewCompletedPosition(3)
-                .initStepIndicatorViewOrientation(Orientation.VERTICAL);
+    private void setUp1() {
+        List<String> list = new ArrayList<>();
+        list.add("接单");
+        list.add("打包");
+        list.add("出发");
+        list.add("送单");
+        list.add("完成");
+        list.add("支付");
+
+        mStepIndicatorView1.initStepIndicatorViewTextList(list)
+                .initStepIndicatorCount(list.size())
+                .initStepIndicatorViewCompletedPosition(1);
+    }
+
+    private void setUp0() {
+        List<String> list = new ArrayList<>();
+        list.add("接单");
+        list.add("打包");
+        list.add("出发");
+        list.add("送单");
+        list.add("完成");
+        list.add("支付");
+
+        mStepIndicatorView0.initStepIndicatorViewTextList(list)
+                .initStepIndicatorCount(list.size())
+                .initStepIndicatorViewCompletedPosition(0);
 
     }
 

@@ -10,8 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.gmx.stepindicatorview.MainActivity">
-
+    tools:context="com.gmx.stepindicatorview.WithoutTextActivity">
 
     <com.gmx.stepview.StepIndicatorView
         android:id="@+id/stepView0"
@@ -21,32 +20,14 @@
         android:paddingTop="30dip"
         app:stepIndicatorViewBackgroundColor="@color/colorPrimary"/>
 
+
     <com.gmx.stepview.StepIndicatorView
         android:id="@+id/stepView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="10dip"
-        android:paddingBottom="30dip"
-        android:paddingTop="30dip"
         app:stepIndicatorViewBackgroundColor="@color/colorPrimary"/>
-
-    <com.gmx.stepview.StepIndicatorView
-        android:id="@+id/stepView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:paddingBottom="30dip"
-        android:paddingTop="30dip"
-        app:stepIndicatorViewBackgroundColor="@color/colorPrimary"/>
-
-    <com.gmx.stepview.StepIndicatorView
-        android:id="@+id/stepView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:paddingBottom="30dip"
-        android:paddingTop="30dip"
-        app:stepIndicatorViewBackgroundColor="@color/colorPrimary"/>
-
+    <!--android:paddingBottom="30dip"-->
+    <!--android:paddingTop="30dip"-->
 
 </android.support.v7.widget.LinearLayoutCompat>

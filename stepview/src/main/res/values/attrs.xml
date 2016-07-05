@@ -57,6 +57,8 @@
         <!--设置默认ICON-->
         <attr name="stepIndicatorViewDefaultIcon" format="reference"/>
 
+        <!--icon-->
+        <attr name="stepIndicatorViewIcon" format="reference"/>
 
         <!--==================================初始化设置=========================================-->
         <!--设置流程文本-->

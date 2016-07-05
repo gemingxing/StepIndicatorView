@@ -1,9 +1,6 @@
 StepIndicatorView (流程指示器)
 -----------------------------
 
-Description
----------------------
-> The library is compatible until API 7 for convenience.
 
 SnapShot
 -------------------
@@ -12,7 +9,7 @@ SnapShot
 
 Sample
 ---------------------------
-> Please look at the app module
+> Please look at the [app](https://github.com/gemingxing/StepIndicatorView/tree/master/app) module
 
 
 StepUp
@@ -32,6 +29,10 @@ Then, add the library dependency:
 ```
 Now go do some awesome stuff!
 
+
+
+
+
 Xml Attributes
 --------------------
 |           Name         |        Description-    |      Default value     |
@@ -43,6 +44,7 @@ Xml Attributes
 |stepIndicatorViewCompletedIcon|set completed icon of the view||
 |stepIndicatorViewUnCompleteIcon|set unComplete icon of the view||
 |stepIndicatorViewDefaultIcon|set default icon of the view||
+|stepIndicatorViewIcon|set icon of the view||
 |........|......|.....|
 
 Use HorizontalStepIndicatorView
@@ -80,6 +82,11 @@ in code
 ``` java
 
 ```
+
+
+End
+---------
+Like the control of friend can click on the star!
 
 
 Licence

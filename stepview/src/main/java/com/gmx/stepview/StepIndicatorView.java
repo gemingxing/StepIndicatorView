@@ -19,6 +19,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,17 +54,18 @@ public class StepIndicatorView extends View {
     private int mStepUnCompleteTextColor = ContextCompat.getColor(getContext(), R.color.uncompleted_text_color); // 文本颜色 (流程未完成)
 
     @ColorInt
-    private int mStepCompletedTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, getResources().getDisplayMetrics());   // 文本颜色 (流程已完成)
+    private int mStepCompletedTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics());   // 文本颜色 (流程已完成)
     @ColorInt
-    private int mStepUnCompleteTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, getResources().getDisplayMetrics()); // 文本颜色 (流程未完成)
+    private int mStepUnCompleteTextSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()); // 文本颜色 (流程未完成)
 
 
     private int mCompletedLineHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());  // 定义10dip线高度(流程已完成)
     private int mUnCompletedLineHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());  // 定义8dip线高度(流程未完成)
 
 
-    private int mLineLength = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());  // 定义10dip线高度(流程已完成)
-    private int mLinePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mCompletedIcon.getMinimumWidth(), getResources().getDisplayMetrics());  // 线与线之间距离40dp
+    private int mLineLength = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());  // 定义10dip线高度(流程已完成)
+    private int mLinePadding = mCompletedIcon.getMinimumWidth();
+//    private int mLinePadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mCompletedIcon.getMinimumWidth(), getResources().getDisplayMetrics());  // 线与线之间距离40dp
 
     private int mTextMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());  // 文本向上外边距
 
@@ -278,12 +280,14 @@ public class StepIndicatorView extends View {
 
 
         mCompletedTextPaint = new TextPaint();
+        mCompletedTextPaint.setAntiAlias(true);
         mCompletedTextPaint.setColor(mStepCompeletedTextColor);
         mCompletedTextPaint.setTextSize(mStepCompletedTextSize);
         mCompletedTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
 
 
         mUnCompleteTextPaint = new TextPaint();
+        mCompletedTextPaint.setAntiAlias(true);
         mUnCompleteTextPaint.setColor(mStepUnCompleteTextColor);
         mUnCompleteTextPaint.setTextSize(mStepUnCompleteTextSize);
 
@@ -303,7 +307,6 @@ public class StepIndicatorView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         mWidthWrapContent = false;
         mHeightWrapContent = false;
@@ -677,16 +680,16 @@ public class StepIndicatorView extends View {
                     if (i <= mCompletedPostion) {
                         textWidth = getTextWidth(text, mCompletedTextPaint);
                         textHeight = getTextHeight(text, mCompletedTextPaint);
-                        textY = textHeight + mTextMarginTop + mLinePadding + mLeftCenterPoint.y;
                         textX = centerPositionX - textWidth / 2;
+                        textY = textHeight + mTextMarginTop + mLinePadding + mLeftCenterPoint.y;
                         canvas.drawText(text, textX, textY, mCompletedTextPaint);
                     }
                     // 未完成的(默认)
                     else {
                         textWidth = getTextWidth(text, mUnCompleteTextPaint);
                         textHeight = getTextHeight(text, mUnCompleteTextPaint);
-                        textY = textHeight + mTextMarginTop + mLinePadding + mLeftCenterPoint.y;
                         textX = centerPositionX - textWidth / 2;
+                        textY = textHeight + mTextMarginTop + mLinePadding + mLeftCenterPoint.y;
                         canvas.drawText(text, textX, textY, mUnCompleteTextPaint);
                     }
 
@@ -703,6 +706,7 @@ public class StepIndicatorView extends View {
                     }
 
                     String text = mTextList.get(i);
+
                     int textWidth = 0;
                     int textHeight = 0;
 
@@ -710,17 +714,41 @@ public class StepIndicatorView extends View {
                     if (i <= mCompletedPostion) {
                         textWidth = getTextWidth(text, mCompletedTextPaint);
                         textHeight = getTextHeight(text, mCompletedTextPaint);
-                        textY = centerPositionY + textHeight / 2;
-                        textX = mLeftCenterPoint.x + mLinePadding + mTextMarginTop;
-                        canvas.drawText(text, textX, textY, mCompletedTextPaint);
+
+                        if (isNewLine(textWidth, useableWidth())) {
+                            List<String> textList = createTextList(text, useableWidth(), mCompletedTextPaint);
+                            for (int j = 0; j < textList.size(); j++) {
+                                textX = mLeftCenterPoint.x + mLinePadding + mTextMarginTop;
+                                textY = centerPositionY + textHeight / 2;
+                                textY += textHeight * j;
+                                canvas.drawText(textList.get(j), textX, textY, mCompletedTextPaint);
+                            }
+                        } else {
+                            textX = mLeftCenterPoint.x + mLinePadding + mTextMarginTop;
+                            textY = centerPositionY + textHeight / 2;
+                            canvas.drawText(text, textX, textY, mCompletedTextPaint);
+                        }
                     }
                     // 未完成的(默认)
                     else {
                         textWidth = getTextWidth(text, mUnCompleteTextPaint);
                         textHeight = getTextHeight(text, mUnCompleteTextPaint);
-                        textY = centerPositionY + textHeight / 2;
-                        textX = mLeftCenterPoint.x + mLinePadding + mTextMarginTop;
-                        canvas.drawText(text, textX, textY, mUnCompleteTextPaint);
+
+                        if (isNewLine(textWidth, useableWidth())) {
+                            List<String> textList = createTextList(text, useableWidth(), mUnCompleteTextPaint);
+                            for (int j = 0; j < textList.size(); j++) {
+                                textX = mLeftCenterPoint.x + mLinePadding + mTextMarginTop;
+                                textY = centerPositionY + textHeight / 2;
+                                textY += textHeight * j;
+                                canvas.drawText(textList.get(j), textX, textY, mUnCompleteTextPaint);
+                            }
+                        } else {
+                            textX = mLeftCenterPoint.x + mLinePadding + mTextMarginTop;
+                            textY = centerPositionY + textHeight / 2;
+                            canvas.drawText(text, textX, textY, mUnCompleteTextPaint);
+                        }
+
+
                     }
 
                 }
@@ -729,6 +757,55 @@ public class StepIndicatorView extends View {
 
         }
 
+    }
+
+
+    private List<String> createTextList(String text, int useableWidth, TextPaint paint) {
+        List<String> list = new ArrayList<>();
+        StringBuffer sb = new StringBuffer();
+        int textWidth = 0;
+        String txt = "";
+        for (int i = 0; i < text.length(); i++) {
+
+            txt = String.valueOf(text.charAt(i));
+            textWidth += paint.measureText(txt);
+
+            if (textWidth >= useableWidth) {
+                list.add(sb.toString());
+                sb.setLength(0);
+                textWidth = 0;
+            }
+
+            sb.append(txt);
+        }
+
+        list.add(sb.toString());
+        sb.setLength(0);
+        textWidth = 0;
+
+        return list;
+    }
+
+    /**
+     * 是否要换行
+     *
+     * @param textWidth
+     * @param useableWidth
+     * @return
+     */
+    private boolean isNewLine(int textWidth, int useableWidth) {
+        if (textWidth > useableWidth) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 绘制文本时, 可用宽度(垂直方向用于换行)
+     */
+    private int useableWidth() {
+        return getWidth() - getPaddingLeft() - getPaddingRight() - mLinePadding - mTextMarginTop;
     }
 
 
@@ -753,6 +830,9 @@ public class StepIndicatorView extends View {
                         width = textWidth / 2 - mLinePadding / 2;
                     }
                 }
+                if(!mWidthWrapContent) {
+                    width = 0;
+                }
             } else {
                 if (mCompletedPostion >= 1) {
                     int textWidth = getTextHeight(text, mCompletedTextPaint);
@@ -764,6 +844,9 @@ public class StepIndicatorView extends View {
                     if (textWidth > mLinePadding) {
                         width = textWidth / 2 - mLinePadding / 2;
                     }
+                }
+                if(!mHeightWrapContent) {
+                    width = 0;
                 }
             }
             Log.e(TAG, "第一个文本 - 第一个icon =  " + width + "px");
@@ -1039,6 +1122,19 @@ public class StepIndicatorView extends View {
      * @return
      */
     public StepIndicatorView setStepIndicatorViewDefaultIcon(Drawable drawable) {
+        mUnCompleteIcon = drawable;
+        return this;
+    }
+
+    /**
+     * 设置默认ICON
+     *
+     * @param drawable
+     * @return
+     */
+    public StepIndicatorView setStepIndicatorViewIcon(Drawable drawable) {
+        mCompletedIcon = drawable;
+        mCompletingIcon = drawable;
         mUnCompleteIcon = drawable;
         return this;
     }
