@@ -28,7 +28,6 @@ public class MainActivity extends BaseActivity {
         setUp1();
         setUp2();
         setUp3();
-
     }
 
     private void setUp3() {
