@@ -81,6 +81,7 @@ List<String> list = new ArrayList<>();
 Use VerticalStepIndicatorView
 --------------------------
 ![](ART/vertical.png)
+
 in xml
 ``` xml
 <com.gmx.stepview.StepIndicatorView
