@@ -32,7 +32,7 @@ public class VerticalActivity extends BaseActivity {
 //        list0.add("您的订单已拣货完成");
         list0.add("扫描员已经扫描");
         list0.add("打包成功");
-        list0.add("配送员【DEMO】已出发,联系电话【130-0000-0000】,感谢您的耐心等待，参加评价还能赢取好多礼物哦");
+        list0.add("配送员【GMX】已出发,联系电话【159-0061-9215】,感谢您的耐心等待，参加评价还能赢取好多礼物哦");
         list0.add("感谢你在京东购物，欢迎你下次光临！");
 
         mStepIndicatorView.initStepIndicatorCount(list0.size())

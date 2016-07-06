@@ -49,7 +49,7 @@ Xml Attributes
 
 Use HorizontalStepIndicatorView
 ----------------------------
-> 这里会引用图片
+![](ART/horizontal.png)
 
 in xml
 ``` xml
@@ -80,6 +80,7 @@ List<String> list = new ArrayList<>();
 
 Use VerticalStepIndicatorView
 --------------------------
+![](ART/vertical.png)
 in xml
 ``` xml
 <com.gmx.stepview.StepIndicatorView
@@ -114,6 +115,7 @@ List<String> list0 = new ArrayList<>();
 
 Use StepIndicatorView(without text horizontal)
 ----------------------------
+![](withouttext.png)
 in xml
 ``` xml
 <com.gmx.stepview.StepIndicatorView
@@ -158,8 +160,6 @@ mStepIndicatorView0.initStepIndicatorCount(5)
 To Be Perfect
 -----------------
 Add animation, replacing the state image and so on......
-
-
 
 
 End

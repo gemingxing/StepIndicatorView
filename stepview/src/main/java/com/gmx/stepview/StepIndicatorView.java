@@ -24,11 +24,6 @@ import java.util.List;
 
 /**
  * 流程指示器
- * (步骤)
- * 1, 固定View的宽度和高度 (这里为了方便, 还需对warp_content进行处理)
- * 2, 画线
- * 3, 画icon
- * 4, 画文本
  */
 public class StepIndicatorView extends View {
     private static final String TAG = "StepIndicatorView";
