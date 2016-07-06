@@ -139,6 +139,8 @@ mStepIndicatorView0.initStepIndicatorCount(5)
 
 Use StepIndicatorView(without text vertical)
 ----------------------------
+![](ART/withouttext_vertical.png)
+
 in xml
 ``` xml
 <com.gmx.stepview.StepIndicatorView
