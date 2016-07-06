@@ -25,7 +25,7 @@ repositories {
 Then, add the library dependency:
 
 ```
-    compile 'com.github.gemingxing:stepindicatorview:1.0.0'
+   compile 'com.github.gemingxing:StepIndicatorView:1.0.0'
 ```
 Now go do some awesome stuff!
 
