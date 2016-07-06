@@ -115,7 +115,7 @@ List<String> list0 = new ArrayList<>();
 
 Use StepIndicatorView(without text horizontal)
 ----------------------------
-![](withouttext.png)
+![](ART/withouttext.png)
 in xml
 ``` xml
 <com.gmx.stepview.StepIndicatorView
