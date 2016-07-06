@@ -1,4 +1,4 @@
-StepIndicatorView (流程指示器)
+StepIndicatorView (流程指示器)  [![](https://jitpack.io/v/gemingxing/StepIndicatorView.svg)](https://jitpack.io/#gemingxing/StepIndicatorView)
 -----------------------------
 
 
